@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int i, a, b, c, p, furkan, m;
+    
+    for(i=10; i<100; i++){
+        p = i;
+        m = i;
+        
+        furkan = 0;
+        while(p>=1){
+            a = p%10;
+            p = p / 10;
+            b = 2;
+            c = 2;
+        
+            while(a>b){
+                if(a%b != 0){
+                    c++;
+                }
+                b++;
+            }
+            if(a == c){
+                furkan++;
+            }
+        }
+        if(furkan == 2){
+            
+            b = 2;
+            c = 2;
+        
+            while(m>b){
+                if(m%b != 0){
+                    c++;
+                }
+                b++;
+            }
+            if(m == c){
+                printf("%d \n", i);
+            }
+            
+        }
+        
+    }
+    
+}
