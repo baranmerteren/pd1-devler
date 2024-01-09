@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Function prototype
+int black_jack(int user, int bot);
+
+int main() {
+    int user = 0, bot = 0;
+    srand(time(NULL));
+
+    int bot1 = rand() % 10;
+    bot = bot + bot1;
+    printf("bot has: %d\n\n\n\n", bot);
+
+    int user1 = rand() % 10;
+    int user2 = rand() % 10;
+    user = user + user1 + user2;
+    printf("you have: %d\n", user);
+
+    // Call the blackjack function with initial user and bot values
+    black_jack(user, bot);
+
+    return 0;
+}
+
+int black_jack(int user, int bot) {
+    char bet;  
+    printf("\nwhat do you want to do hit 'h' or stay 's': ");
+    scanf(" %c", &bet);  // Added space to ignore whitespace characters
+
+    if (bet == 'h') {
+        int user1 = rand() % 10;
+        user = user + user1;
+        printf("bot has: %d\n\n\n\n", bot);
+        printf("you have: %d", user);
+
+        if (user > 21) {
+            printf("bot has: %d\n\n\n\n", bot);
+            printf("you have: %d", user);
+            printf("you lost.");
+            return 0;  // End the game, return control to main
+        }
+
+        // Recursive call with updated user value
+        black_jack(user, bot);
+    } else if (bet == 's') {
+        while (bot < 21 || bot < user) {
+            int bot1 = rand() % 10;
+            bot = bot + bot1;
+        }
+
+        if (bot > 21) {
+            printf("bot has: %d\n\n\n\n", bot);
+            printf("you have: %d", user);
+            printf("you win!!");
+            return 0;  // End the game, return control to main
+        } else if (bot > user && bot <= 21) {
+            printf("bot has: %d\n\n\n\n", bot);
+            printf("you have: %d", user);
+            printf("you lost");
+            return 0;  // End the game, return control to main
+        }
+    }
+
+    return 0;  // End the game, return control to main
+}

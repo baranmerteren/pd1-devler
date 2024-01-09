@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main() {
+    int i, size, c;
+    printf("enter array size: ");
+    scanf("%d", &size);
+    int list[size];
+    for(i=1; i<=size; i++){
+        printf("enter %d. element: ", i);
+        scanf("%d", &list[i]);
+    }
+    c = 0;
+    for(i=size; i>0; i--){
+        if(list[i]%2==0){
+            c++;
+        }
+        
+    }
+    printf("even num amount: %d", c);
+    
+
+    return 0;
+}
