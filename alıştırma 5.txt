@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define max 1000
+int mahmood(){
+    
+    char a[max];
+    int i, c;
+    c = 0;
+    printf("cümle gir: ");
+    fgets(a, max, stdin);
+    for(i=0;i<=strlen(a);i++){
+        
+        if(a[i] == 'a' || a[i] == 'e' || a[i] == 'u' || a[i] == 'o'|| a[i] == 'i'){
+            c++;
+        }
+    }
+    
+    return c;
+}
+int main(){
+    
+    printf("toplam sesli harf: %d", mahmood());
+    
+    return 0;
+}
