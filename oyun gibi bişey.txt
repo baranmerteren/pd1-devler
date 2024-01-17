@@ -1,0 +1,366 @@
+#kumar
+import random
+import time
+import os
+
+money = 100000
+day = 1
+stock_a = 0
+stock_b = 0
+stock_e = 0
+stock_f = 0
+stock_m = 0
+amount = [1, 3, 6, 2, 0, 4]
+stock_a_f = [1, 2, 2, 2, 1, 2, 1, 2, 1, 1, 2, 2, 2]
+stock_b_f = [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2]
+stock_e_f = [1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 1, 2]  
+stock_f_f = [2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 1]
+stock_m_f = [1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2]
+stock_a_p = 44
+stock_b_p = 197
+stock_e_p = 396
+stock_f_p = 37
+stock_m_p = 89
+print("this game has no meaning i just wanted to made a game with gambling business and stock market and thats it.")
+def main():
+    global money, day, stock_a, stock_b, stock_e, stock_f, stock_m
+    print("Day: ", day, "Money: ", money)
+    answer1 = input("\nwhat do you want to do ?\n1- work\n2- stock market\n3- gambling\n4- shop\n")
+    day = day + 1
+    stock_market_move()
+    time.sleep(0.2)
+    os.system('cls')
+    try:
+        answer1 = int(answer1)
+    except:
+        main()
+    if(answer1==1):
+        work()
+    elif(answer1==2):
+        stock_market()
+    elif(answer1==3):
+        gambling()
+    elif(answer1==4):
+        shop()
+    else:
+        main()
+def work():
+    global money, day, stock_a, stock_b, stock_e, stock_f, stock_m
+    time.sleep(0.2)
+    os.system('cls')
+    print("for main menu type quit\n")
+    work_list = ['obey the rules', 'taking risk is bad', 'do not think just do', 'no one got rich with quiting their job', 'money do not buy happines', 'ı love my job', 'just work']
+    work_word = random.choice(work_list)
+    print(work_word)
+    work_answer = input()
+    time.sleep(0.2)
+    os.system('cls')
+    if(work_answer == work_word):
+        day = day + 1
+        stock_market_move()
+        money = money + 50
+        print("doğru")
+        work()
+    elif(work_answer == 'quit'):
+        main()
+    else:
+        day = day + 1
+        stock_market_move()
+        work()
+def stock_market_move():
+    global money, day, stock_a, stock_b, stock_e, stock_f, stock_m, stock_a_p, stock_b_p, stock_e_p, stock_f_p, stock_m_p, stock_a_f, stock_b_f, stock_e_f, stock_f_f, stock_m_f
+    
+    stock_a_r = random.choice(stock_a_f)
+    stock_b_r = random.choice(stock_b_f)
+    stock_e_r = random.choice(stock_e_f)
+    stock_f_r = random.choice(stock_f_f)
+    stock_m_r = random.choice(stock_m_f)
+    
+    stock_a_a = random.choice(amount)
+    stock_b_a = random.choice(amount)
+    stock_e_a = random.choice(amount)
+    stock_f_a = random.choice(amount)
+    stock_m_a = random.choice(amount)
+    
+    if(stock_a_r == 1):
+        stock_a_p = stock_a_p + stock_a_a
+    else:
+        stock_a_p = stock_a_p - stock_a_a
+        if(stock_a_p > 0):
+            stock_a_p = stock_a_p
+        else:
+            stock_a = 0
+            stock_a_p = 0
+    
+    if(stock_b_r == 1):
+        stock_b_p = stock_b_p + stock_b_a
+    else:
+        stock_b_p = stock_b_p - stock_b_a
+        if(stock_b_p > 0):
+            stock_b_p = stock_b_p
+        else:
+            stock_b = 0
+            stock_b_p = 0
+    
+    if(stock_e_r == 1):
+        stock_e_p = stock_e_p + stock_e_a
+    else:
+        stock_e_p = stock_e_p - stock_e_a
+        if(stock_e_p > 0):
+            stock_e_p = stock_e_p
+        else:
+            stock_e = 0
+            stock_e_p = 0
+    
+    if(stock_f_r == 1):
+        stock_f_p = stock_f_p + stock_f_a
+    else:
+        stock_f_p = stock_f_p - stock_f_a
+        if(stock_f_p > 0):
+            stock_f_p = stock_f_p
+        else:
+            stock_f = 0
+            stock_f_p = 0
+    
+    if(stock_m_r == 1):
+        stock_m_p = stock_m_p + stock_m_a
+    else:
+        stock_m_p = stock_m_p - stock_m_a
+        if(stock_m_p > 0):
+            stock_m_p = stock_m_p
+        else:
+            stock_m = 0
+            stock_m_p = 0
+def stock_market():
+    global money, day, stock_a, stock_b, stock_e, stock_f, stock_m, stock_a_p, stock_b_p, stock_e_p, stock_f_p, stock_m_p
+    time.sleep(0.2)
+    os.system('cls')
+    print("\nYOUR STOCKS\nBorusan: ", stock_a, "\nAhmet Gayrimenekul: ", stock_b, "\nKardeşler pide: ", stock_e, "\nKürtcell: ", stock_f, "\nMuhittin Bank: ", stock_m)
+    print("\n1- Borusan: ", stock_a_p, "\n2- Ahmet gayrimenkul: ", stock_b_p, "\n3- Kardeşler pide: ", stock_e_p, "\n4- Kürtcell: ", stock_f_p, "\n5- Muhittin Bank: ", stock_m_p)
+    print("\nYou are in buy mode\nFor sell stock type sell\nYour money: ", money)
+    move = input()
+
+    if(move == 'quit'):
+        time.sleep(0.2)
+        os.system('cls')
+        main()
+    
+    elif(move == '1'):
+        if(stock_a_p == 0):
+            print("this stock is not avaible right now")
+            time.sleep(1)
+            stock_market()
+        else:
+            stock = int(input("how many stocks do you want to buy? \n"))
+            stock1 = stock * stock_a_p
+            if(money-stock1 < 0):
+                print("you dont have enough money for that.")
+                time.sleep(1)
+                os.system('cls')
+                stock_market()
+            else:
+                stock_a = stock + stock_a
+                money = money - stock1
+                stock_market()
+    
+    elif(move == '2'):
+        if(stock_b_p == 0):
+            print("this stock is not avaible right now")
+            time.sleep(1)
+            stock_market()
+        else:
+            stock = int(input("how many stocks do you want to buy? \n"))
+            stock1 = stock * stock_b_p
+            if(money-stock1 < 0):
+                print("you dont have enough money for that.")
+                time.sleep(1)
+                os.system('cls')
+                stock_market()
+            else:
+                stock_b = stock + stock_b
+                money = money - stock1
+                stock_market()
+    
+    elif(move == '3'):
+        if(stock_e_p == 0):
+            print("this stock is not avaible right now")
+            time.sleep(1)
+            stock_market()
+        else:
+            stock = int(input("how many stocks do you want to buy? \n"))
+            stock1 = stock * stock_e_p
+            if(money-stock1 < 0):
+                print("you dont have enough money for that.")
+                time.sleep(1)
+                os.system('cls')
+                stock_market()
+            else:
+                stock_e = stock + stock_e
+                money = money - stock1
+                stock_market()
+    
+    elif(move == '4'):
+        if(stock_f_p == 0):
+            print("this stock is not avaible right now")
+            time.sleep(1)
+            stock_market()
+        else:
+            stock = int(input("how many stocks do you want to buy? \n"))
+            stock1 = stock * stock_f_p
+            if(money-stock1 < 0):
+                print("you dont have enough money for that.")
+                time.sleep(1)
+                os.system('cls')
+                stock_market()
+            else:
+                stock_f = stock + stock_f
+                money = money - stock1
+                stock_market()
+    
+    elif(move == '5'):
+        if(stock_m_p == 0):
+            print("this stock is not avaible right now")
+            time.sleep(1)
+            stock_market()
+        else:
+            stock = int(input("how many stocks do you want to buy? \n"))
+            stock1 = stock * stock_m_p
+            if(money-stock1 < 0):
+                print("you dont have enough money for that.")
+                time.sleep(1)
+                os.system('cls')
+                stock_market()
+            else:
+                stock_m = stock + stock_m
+                money = money - stock1
+                stock_market()
+    elif(move == 'sell'):
+        move1 = input("which stock do you want to sell? \n")
+
+        if(move1 == '1'):
+            move2 = int(input("How many do you want to sell? \n"))
+            if(stock_a >= move2):
+                money = move2 * stock_a_p + money
+                stock_a = stock_a - move2
+                stock_market()
+            else:
+                print("number is unavaible ")
+                stock_market()
+        
+        elif(move1 == '2'):
+            move2 = int(input("How many do you want to sell? \n"))
+            if(stock_b >= move2):
+                money = move2 * stock_b_p + money
+                stock_b = stock_b - move2
+                stock_market()
+            else:
+                print("number is unavaible ")
+                stock_market()
+        
+        elif(move1 == '3'):
+            move2 = int(input("How many do you want to sell? \n"))
+            if(stock_e >= move2):
+                money = move2 * stock_e_p + money
+                stock_e = stock_e - move2
+                stock_market()
+            else:
+                print("number is unavaible ")
+                stock_market()
+        
+        elif(move1 == '4'):
+            move2 = int(input("How many do you want to sell? \n"))
+            if(stock_f >= move2):
+                money = move2 * stock_f_p + money
+                stock_f = stock_f - move2
+                stock_market()
+            else:
+                print("number is unavaible ")
+                stock_market()
+        
+        elif(move1 == '5'):
+            move2 = int(input("How many do you want to sell? \n"))
+            if(stock_m >= move2):
+                money = move2 * stock_m_p + money
+                stock_m = stock_m - move2
+                stock_market()
+            else:
+                print("number is unavaible ")
+                stock_market()
+def game_checker():
+                global p1, p2, a1, sump, sumb
+                p1 = random.choice(pool1)
+                p2 = random.choice(pool1)
+                a1 = random.choice(pool1)
+                sumb = a1
+                sump = p1 + p2
+                if(sump > 21):
+                    game_checker()
+                else:
+                    print("Bot have: ", sumb, "\nYou Have: ", sump, "\nh for hit s for stnad\n")
+            
+
+                   
+
+def gambling():
+    global money, day, pool1
+    time.sleep(0.2)
+    os.system('cls')
+    game = input("--WELCOME TO CASİNO--\nPlease pick a game for have fun and get rich\n1-Roulette\n2-Black Jack\n3-Jackpot\n")
+
+    if(game == '1'):
+        time.sleep(0.2)
+        os.system('cls')
+        pool = ['red', 'black', 'red', 'black','red', 'black','red', 'black','red', 'black','red', 'black','red', 'black','red', 'black',]
+        print(f"\nYour money: ", money, "\nHow much do you want to bet: \n")
+        bet = int(input())
+        if(money >= bet):
+            money = money - bet
+            color = input("witch color do you want to bet(red or black): \n")
+            time.sleep(0.2)
+            os.system('cls')
+            print("spining.")
+            time.sleep(0.2)
+            os.system('cls')
+            print("spining..")
+            time.sleep(0.2)
+            os.system('cls')
+            print("spining...")
+            time.sleep(0.2)
+            os.system('cls')
+            realColor = random.choice(pool)
+            if(color == realColor):
+                money = money + bet*2
+                print(realColor, "\nyou won !!!\nYour money: ", money)
+                time.sleep(0.4)
+                os.system('cls')
+                gambling()
+            else:
+                print(realColor, "\nyou lose ")
+                time.sleep(0.3)
+                os.system('cls')
+                gambling()
+        
+        else:
+            print("not enough money:(")
+            time.sleep(0.7)
+            gambling()
+    elif(game == '2'):
+        time.sleep(0.2)
+        os.system('cls')
+        pool1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+        print(f"\nYour money: ", money, "\nHow much do you want to bet: \n")
+        bet = int(input())
+        if(money >= bet):
+            time.sleep(0.2)
+            os.system('cls')
+            game_checker()
+            money = money - bet
+    
+    
+    elif(game == 'quit'):
+        print("see you later")
+        main()        
+
+
+    
+main()
