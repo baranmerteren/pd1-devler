@@ -1,0 +1,213 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+import random
+
+class BlackjackGame:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("BMCasino Blackjack")
+        self.root.geometry("800x600")
+        self.root.configure(bg="#00274D")  # BMCasino theme color
+
+        self.deck = self.create_deck()
+        self.player_hand = []
+        self.casino_hand = []
+        self.current_bet = tk.DoubleVar()
+        self.current_bet.set(0)
+        self.player_money = 1000  # Starting money
+
+        self.create_widgets()
+
+    def create_deck(self):
+        suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+        ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+        return [{'suit': suit, 'rank': rank} for suit in suits for rank in ranks]
+
+    def shuffle_deck(self):
+        random.shuffle(self.deck)
+
+    def deal_initial_cards(self):
+
+        if len(self.deck) < 4:  # If there are fewer than 4 cards, reshuffle the deck
+            self.shuffle_deck()
+
+        self.player_hand = [self.draw_card(), self.draw_card()]
+        self.casino_hand = [self.draw_card(), self.draw_card()]
+        self.player_hand = [self.draw_card(), self.draw_card()]
+        self.casino_hand = [self.draw_card(), self.draw_card()]
+
+    def draw_card(self):
+
+        if not self.deck:
+        # Reshuffle the deck if it's empty
+            self.shuffle_deck()
+
+        return self.deck.pop()
+        return self.deck.pop()
+
+    def calculate_hand_value(self, hand):
+        total_value = 0
+        num_aces = 0
+
+        for card in hand:
+            rank = card['rank']
+            if rank.isdigit():
+                total_value += int(rank)
+            elif rank in ['J', 'Q', 'K']:
+                total_value += 10
+            elif rank == 'A':
+                total_value += 11
+                num_aces += 1
+
+        while total_value > 21 and num_aces:
+            total_value -= 10
+            num_aces -= 1
+
+        return total_value
+
+    def check_blackjack(self, hand):
+        return len(hand) == 2 and self.calculate_hand_value(hand) == 21
+
+    def create_widgets(self):
+        # Money label
+        self.money_label = tk.Label(self.root, text=f"Money: ${self.player_money}", font=("Arial", 16), bg="#00274D", fg="white")
+        self.money_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+
+        # Bet label and entry
+        bet_label = tk.Label(self.root, textvariable=self.current_bet, font=("Arial", 16), bg="#00274D", fg="white")
+        bet_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+
+        bet_entry = tk.Entry(self.root, font=("Arial", 12))
+        bet_entry.grid(row=2, column=0, padx=10, pady=5, sticky="w")
+
+        # Buttons
+        bet_button = ttk.Button(self.root, text="Place Bet", command=lambda: self.place_bet(bet_entry.get()), style="BMCasino.TButton")
+        bet_button.grid(row=3, column=0, padx=10, pady=5, sticky="w")
+
+        deal_button = ttk.Button(self.root, text="Deal", command=self.deal, style="BMCasino.TButton")
+        deal_button.grid(row=4, column=0, padx=10, pady=5, sticky="w")
+
+        hit_button = ttk.Button(self.root, text="Hit", command=self.hit, style="BMCasino.TButton")
+        hit_button.grid(row=5, column=0, padx=10, pady=5, sticky="w")
+
+        stand_button = ttk.Button(self.root, text="Stand", command=self.stand, style="BMCasino.TButton")
+        stand_button.grid(row=6, column=0, padx=10, pady=5, sticky="w")
+
+        exit_button = ttk.Button(self.root, text="Exit", command=self.root.destroy, style="BMCasino.TButton")
+        exit_button.grid(row=7, column=0, padx=10, pady=5, sticky="w")
+
+        # Player's Hand label and text widget
+        player_hand_label = tk.Label(self.root, text="Your Hand:", font=("Arial", 16), bg="#00274D", fg="white")
+        player_hand_label.grid(row=0, column=1, padx=10, pady=5, sticky="w")
+
+        self.player_text_widget = tk.Text(self.root, height=2, width=30, font=("Arial", 12), bg="#00274D", fg="white")
+        self.player_text_widget.grid(row=1, column=1, padx=10, pady=5, sticky="w")
+
+        # Casino's Hand label and text widget
+        casino_hand_label = tk.Label(self.root, text="Casino's Hand:", font=("Arial", 16), bg="#00274D", fg="white")
+        casino_hand_label.grid(row=4, column=1, padx=10, pady=5, sticky="w")
+
+        self.casino_text_widget = tk.Text(self.root, height=2, width=30, font=("Arial", 12), bg="#00274D", fg="white")
+        self.casino_text_widget.grid(row=5, column=1, padx=10, pady=5, sticky="w")
+
+        # Style
+        style = ttk.Style(self.root)
+        style.configure("BMCasino.TButton", background="#005792", foreground="black", font=("Arial", 12))
+        
+
+    def place_bet(self, amount):
+        try:
+            amount = float(amount)
+        except ValueError:
+            messagebox.showerror("Invalid Bet", "Please enter a valid numeric bet.")
+            return
+
+        if amount <= 0 or amount > self.player_money:
+            messagebox.showerror("Invalid Bet", f"Please enter a bet between 1 and {self.player_money}.")
+            return
+
+        self.current_bet.set(amount)
+        self.player_money -= amount
+        self.update_ui_money()
+        self.update_ui()
+
+    def deal(self):
+        if self.current_bet.get() == 0:
+            messagebox.showerror("Invalid Bet", "Please place a bet before dealing.")
+            return
+
+        self.shuffle_deck()
+        self.deal_initial_cards()
+        self.update_ui()
+
+        if self.check_blackjack(self.player_hand):
+            messagebox.showinfo("Blackjack!", "You got a Blackjack!")
+
+    def hit(self):
+        self.player_hand.append(self.draw_card())
+        if self.calculate_hand_value(self.player_hand) > 21:
+            tk.messagebox.showinfo("Bust", "Player busts! Dealer wins.")
+            self.reset_round()
+        else:
+            self.update_ui()
+
+    def stand(self):
+        while self.calculate_hand_value(self.casino_hand) < 17:
+            self.casino_hand.append(self.draw_card())
+            self.update_ui()
+
+        player_value = self.calculate_hand_value(self.player_hand)
+        casino_value = self.calculate_hand_value(self.casino_hand)
+
+        if casino_value > 21 or player_value > casino_value:
+            tk.messagebox.showinfo("Winner", "Player wins!")
+            self.player_money += 2 * self.current_bet.get()
+        elif player_value < casino_value:
+            tk.messagebox.showinfo("Winner", "Casino wins!")
+        else:
+            tk.messagebox.showinfo("Draw", "It's a draw!")
+            self.player_money += self.current_bet.get()
+
+        self.reset_round()
+
+    def update_ui(self):
+        bet_text = f"Bet: ${self.current_bet.get()}"
+        player_text = "Your Hand: "
+    
+        if self.player_hand:
+            player_text += f"{self.player_hand[-1]} (Value: {self.calculate_hand_value(self.player_hand)})"
+    
+        casino_text = "Casino's Hand: "
+    
+        if self.casino_hand:
+            casino_text += f"{self.casino_hand[0]}"
+
+        self.player_text_widget.delete(1.0, tk.END)
+        self.casino_text_widget.delete(1.0, tk.END)
+
+        self.player_text_widget.insert(tk.END, player_text)
+        self.casino_text_widget.insert(tk.END, casino_text)
+
+        self.root.update_idletasks()
+
+    def update_ui_money(self):
+        money_label_text = f"Money: ${self.player_money}"
+        self.money_label.config(text=money_label_text)
+
+    def reset_round(self):
+        self.player_hand = []
+        self.casino_hand = []
+        self.current_bet.set(0)
+        self.update_ui()
+
+def main():
+    root = tk.Tk()
+    root.tk_setPalette(background="#00274D", foreground="black", activeBackground="#005792", activeForeground="black")
+    style = ttk.Style(root)
+    style.configure("BMCasino.TButton", background="#005792", foreground="black", font=("Arial", 12))
+
+    blackjack_game = BlackjackGame(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
